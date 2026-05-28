@@ -2,9 +2,7 @@
 
 import React, { useState } from "react";
 import { Calendar, Flame, Zap, MoreHorizontal, Database, Cpu, ShieldAlert, Sparkles, Check } from "lucide-react";
-import Avatar from "../ui/Avatar";
-import Modal from "../ui/Modal";
-import Button from "../ui/Button";
+import { Avatar, Modal, Button } from "../ui";
 
 interface ScheduleItem {
   id: string;

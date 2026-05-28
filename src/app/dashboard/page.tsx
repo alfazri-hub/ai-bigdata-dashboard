@@ -25,12 +25,7 @@ import {
 } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
-import TaskRow from "@/components/ui/TaskRow";
-import Avatar from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
-import Card, { CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/Card";
-import Modal from "@/components/ui/Modal";
-import Input from "@/components/ui/Input";
+import { Button, Card, CardHeader, CardContent, CardTitle, CardDescription, Input, Avatar, Modal } from "@/components/ui";
 import DataChart from "@/components/charts/DataChart";
 import { cn } from "@/lib/utils";
 import {

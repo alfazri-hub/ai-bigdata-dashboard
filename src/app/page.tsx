@@ -24,10 +24,7 @@ import {
 } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import DataChart from "@/components/charts/DataChart";
-import Modal from "@/components/ui/Modal";
-import Button from "@/components/ui/Button";
-import Card, { CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/Card";
-import Input from "@/components/ui/Input";
+import { Button, Card, CardHeader, CardContent, CardTitle, CardDescription, Input, Modal } from "@/components/ui";
 import { salesTrends, salesLocalization } from "@/lib/dummyData";
 import { formatIDR, formatNumber } from "@/lib/utils";
 
@@ -39,7 +36,7 @@ export default function DashboardSederhana() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [activeChannelFilter, setActiveChannelFilter] = useState("all");
   const [isFilterApplied, setIsFilterApplied] = useState(false);
-  
+
   // Widget customizer states (which cards to show)
   const kpiList = [
     "Total Sales Order Value",
@@ -59,7 +56,7 @@ export default function DashboardSederhana() {
   const getKpiDisplay = (key: string) => {
     // If filter is applied, we scale values down slightly to show dynamic updates
     const scale = isFilterApplied ? 0.85 : 1;
-    
+
     switch (key) {
       case "Total Sales Order Value":
         return {
@@ -144,7 +141,7 @@ export default function DashboardSederhana() {
     const min = Math.min(...points);
     const max = Math.max(...points);
     const range = max - min === 0 ? 1 : max - min;
-    
+
     return points
       .map((val, i) => {
         const x = (i / (points.length - 1)) * width;
@@ -171,38 +168,11 @@ export default function DashboardSederhana() {
             >
               <Menu size={22} />
             </button>
-
-            <span className="font-black text-slate-900 text-2xl tracking-tighter bg-gradient-to-r from-emerald-800 to-emerald-600 bg-clip-text text-transparent">
-              distri
-            </span>
-            <span className="text-slate-300 text-lg">|</span>
-            <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 p-1 rounded-xl">
-              <button
-                onClick={() => setLang("ID")}
-                className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                  lang === "ID"
-                    ? "bg-emerald-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-600"
-                }`}
-              >
-                ID
-              </button>
-              <button
-                onClick={() => setLang("EN")}
-                className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                  lang === "EN"
-                    ? "bg-emerald-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-600"
-                }`}
-              >
-                EN
-              </button>
-            </div>
           </div>
-          
+
           <div className="flex items-center gap-6">
             {/* Dashboard switcher shortcut */}
-            <Link 
+            <Link
               href="/dashboard"
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border border-emerald-200/60 rounded-xl text-xs font-bold text-emerald-800 transition duration-200 shadow-sm"
             >
@@ -282,11 +252,10 @@ export default function DashboardSederhana() {
                   key={key}
                   variant={isSelected ? "glow" : "default"}
                   onClick={() => setActiveKpi(key)}
-                  className={`cursor-pointer p-6 relative flex flex-col justify-between h-[160px] group transition-all duration-300 border-2 ${
-                    isSelected 
-                      ? "border-emerald-500 scale-[1.02] shadow-emerald-100/40" 
-                      : "border-slate-100 hover:border-slate-200 shadow-slate-100/50 hover:shadow-lg"
-                  }`}
+                  className={`cursor-pointer p-6 relative flex flex-col justify-between h-[160px] group transition-all duration-300 border-2 ${isSelected
+                    ? "border-emerald-500 scale-[1.02] shadow-emerald-100/40"
+                    : "border-slate-100 hover:border-slate-200 shadow-slate-100/50 hover:shadow-lg"
+                    }`}
                 >
                   <div>
                     <div className="flex justify-between items-start mb-1 gap-2">
@@ -352,7 +321,7 @@ export default function DashboardSederhana() {
                     {t.chartSubtitle} &bull; <span className="text-emerald-700 font-bold">{t.kpiNames[activeKpi as keyof typeof t.kpiNames] || activeKpi}</span>
                   </p>
                 </div>
-                
+
                 {/* Active Indicator details */}
                 <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-right">
                   <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Active series</p>
@@ -480,11 +449,10 @@ export default function DashboardSederhana() {
                 <button
                   key={channel.id}
                   onClick={() => setActiveChannelFilter(channel.id)}
-                  className={`p-3 rounded-2xl text-sm font-semibold border transition-all text-left flex items-center justify-between cursor-pointer ${
-                    activeChannelFilter === channel.id
-                      ? "bg-emerald-50 border-emerald-500 text-emerald-800"
-                      : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
-                  }`}
+                  className={`p-3 rounded-2xl text-sm font-semibold border transition-all text-left flex items-center justify-between cursor-pointer ${activeChannelFilter === channel.id
+                    ? "bg-emerald-50 border-emerald-500 text-emerald-800"
+                    : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                    }`}
                 >
                   <span>{channel.name}</span>
                   {activeChannelFilter === channel.id && <Check size={16} className="text-emerald-700" />}
@@ -534,11 +502,10 @@ export default function DashboardSederhana() {
                 >
                   <span className="text-sm font-bold text-slate-700">{localizedName}</span>
                   <div
-                    className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-all ${
-                      isChecked 
-                        ? "bg-emerald-600 border-emerald-600 text-white shadow-sm"
-                        : "bg-white border-slate-300"
-                    }`}
+                    className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-all ${isChecked
+                      ? "bg-emerald-600 border-emerald-600 text-white shadow-sm"
+                      : "bg-white border-slate-300"
+                      }`}
                   >
                     {isChecked && <Check size={14} />}
                   </div>

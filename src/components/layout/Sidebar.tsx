@@ -40,8 +40,8 @@ function NavItem({ icon: Icon, label, href, active = false, badge }: NavItemProp
         <Icon
           className={cn(
             "transition-colors",
-            active 
-              ? "text-slate-900 dark:text-emerald-400" 
+            active
+              ? "text-slate-900 dark:text-emerald-400"
               : "text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200"
           )}
           size={18}
@@ -86,11 +86,11 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-tr from-emerald-600 to-teal-400 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-lg">
-              d
+              AI
             </div>
             <div>
               <span className="font-black text-slate-900 dark:text-white text-lg tracking-tighter">
-                distri
+                Kelompok Asik
               </span>
               <span className="text-emerald-500 font-extrabold text-xs block -mt-1">
                 AI & Big Data
@@ -133,17 +133,17 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             Dashboards
           </p>
           <nav className="space-y-1">
-            <NavItem 
-              icon={Layout} 
-              label="Sales Dashboard" 
-              href="/" 
-              active={pathname === "/"} 
+            <NavItem
+              icon={Layout}
+              label="Sales Dashboard"
+              href="/"
+              active={pathname === "/"}
             />
-            <NavItem 
-              icon={Cpu} 
-              label="AI Studio Dashboard" 
-              href="/dashboard" 
-              active={pathname === "/dashboard"} 
+            <NavItem
+              icon={Cpu}
+              label="AI Studio Dashboard"
+              href="/dashboard"
+              active={pathname === "/dashboard"}
             />
           </nav>
         </div>
@@ -161,24 +161,12 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             <NavItem icon={Settings} label="Settings" href="/dashboard#" />
           </nav>
         </div>
-
-        {/* Favorites Category */}
-        <div className="space-y-3">
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400 pl-2">
-            Favorites
-          </p>
-          <div className="space-y-2">
-            <FavoriteItem color="border-sky-400" label="NLP Engine Alpha" />
-            <FavoriteItem color="border-rose-400" label="Vision API Mockup" />
-            <FavoriteItem color="border-emerald-400" label="Data Lake Revamp" />
-          </div>
-        </div>
       </div>
 
       {/* Footer shortcut / copy */}
       <div className="pt-6 border-t border-slate-100 dark:border-slate-900/60 mt-auto">
         <p className="text-[10px] text-slate-400 font-semibold text-center">
-          © 2026 AI Studio &bull; v2.1.0
+          © 2026 AI & Big Data &bull; v1.0
         </p>
       </div>
     </>
