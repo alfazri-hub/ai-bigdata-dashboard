@@ -114,11 +114,11 @@ export function Card({
   const baseStyles = "rounded-[28px] border transition-all duration-300";
   
   const variants = {
-    default: "bg-white border-slate-200/80 shadow-sm shadow-slate-100/50",
+    default: "bg-white dark:bg-slate-950 border-slate-200/80 dark:border-slate-800/80 shadow-sm shadow-slate-100/50 dark:shadow-none",
     glass: "glass-light shadow-sm",
     dark: "bg-slate-900 border-slate-800 text-white shadow-xl shadow-slate-950/20",
-    outline: "bg-transparent border-slate-200 text-slate-700",
-    glow: "bg-white border-slate-200/80 shadow-sm hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]",
+    outline: "bg-transparent border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300",
+    glow: "bg-white dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]",
     "glow-purple": "bg-slate-900/95 border-slate-800 text-white shadow-xl hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]",
   };
 
