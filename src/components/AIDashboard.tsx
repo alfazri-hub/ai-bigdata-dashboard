@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Server, HardDrive, CreditCard, Loader2, Sparkles, ChevronDown,
-  Info, MapPin, Calendar, ToggleLeft, Database, Globe
+  Info, MapPin, Calendar, ToggleLeft, Database, Globe, Cpu, Activity
 } from "lucide-react";
 import { CloudCostInput, OptionsResponse } from "@/lib/types";
 import { getOptions } from "@/lib/api";
@@ -18,17 +18,23 @@ interface ShortInput {
   Service_Category: string;
   Instance_Status: string;
   Storage_Used_GB: number | "";
+  Required_CPU_Hours: number | "";
+  Actual_CPU_Hours: number | "";
+  CPU_Utilization: number | "";
   Compute_Cost: number | "";
   Storage_Cost: number | "";
   Network_Cost: number | "";
 }
 
 const defaultShortInput: ShortInput = {
-  Region: "US-East-1",
-  Billing_Period: "Monthly",
-  Service_Category: "Compute",
-  Instance_Status: "Active",
+  Region: "",
+  Billing_Period: "",
+  Service_Category: "",
+  Instance_Status: "",
   Storage_Used_GB: "",
+  Required_CPU_Hours: "",
+  Actual_CPU_Hours: "",
+  CPU_Utilization: "",
   Compute_Cost: "",
   Storage_Cost: "",
   Network_Cost: "",
@@ -54,7 +60,7 @@ const SelectField = ({ label, icon: Icon, value, onChange, options, placeholder 
     </label>
     <div className="relative">
       <select value={value} onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 pl-4 pr-9 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm shadow-slate-100/50">
+        className="w-full appearance-none bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 pl-4 pr-9 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm">
         <option value="">{placeholder}</option>
         {options.map((o) => {
           const val = typeof o === "string" ? o : o.value;
@@ -67,9 +73,9 @@ const SelectField = ({ label, icon: Icon, value, onChange, options, placeholder 
   </div>
 );
 
-const NumberField = ({ label, icon: Icon, value, onChange, placeholder, prefix }: {
+const NumberField = ({ label, icon: Icon, value, onChange, placeholder, prefix, hint }: {
   label: string; icon: React.ElementType; value: number | "";
-  onChange: (v: number | "") => void; placeholder?: string; prefix?: string;
+  onChange: (v: number | "") => void; placeholder?: string; prefix?: string; hint?: string;
 }) => (
   <div className="space-y-2">
     <label className="text-[10px] font-black text-slate-650 uppercase tracking-widest flex items-center gap-1.5 ml-1">
@@ -82,8 +88,9 @@ const NumberField = ({ label, icon: Icon, value, onChange, placeholder, prefix }
         onChange(val === "" ? "" : parseFloat(val) || 0);
       }}
         placeholder={placeholder || "0"}
-        className={`w-full bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm shadow-slate-100/50 ${prefix ? "pl-8 pr-4" : "px-4"}`} />
+        className={`w-full bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm ${prefix ? "pl-8 pr-4" : "px-4"}`} />
     </div>
+    {hint && <p className="text-[9px] text-slate-400 font-semibold ml-1">{hint}</p>}
   </div>
 );
 
@@ -95,20 +102,20 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
     getOptions().then(setOptions).catch(() => setOptions(null));
   }, []);
 
-  const set = (key: keyof ShortInput) => (val: string | number) =>
+  const set = (key: keyof ShortInput) => (val: string | number | "") =>
     setInput((prev) => ({ ...prev, [key]: val }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const fullInput: CloudCostInput = {
-      Project_Type: "Testing",
-      Cloud_Service: "AWS Glacier",
+      Project_Type: "Analytics",
+      Cloud_Service: "AWS S3",
       Service_Category: input.Service_Category || "Compute",
       Billing_Period: input.Billing_Period || "Monthly",
-      Required_CPU_Hours: 720,
-      Actual_CPU_Hours: 720,
-      CPU_Utilization: 75,
+      Required_CPU_Hours: Number(input.Required_CPU_Hours) || 372,
+      Actual_CPU_Hours: Number(input.Actual_CPU_Hours) || 372,
+      CPU_Utilization: Number(input.CPU_Utilization) || 50,
       Storage_Used_GB: Number(input.Storage_Used_GB) || 0,
       Storage_Cost: Number(input.Storage_Cost) || 0,
       Compute_Cost: Number(input.Compute_Cost) || 0,
@@ -123,8 +130,8 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
   };
 
   const opts = {
-    Region: options?.Region || ["US-East-1", "US-West-2", "EU-West-1", "AP-Southeast-1"],
-    Billing_Period: options?.Billing_Period || ["Monthly", "Quarterly", "Annually", "Hourly"],
+    Region: options?.Region || ["US-East-1", "US-West-2", "EU-West-1", "AP-Southeast-1", "Asia-East1"],
+    Billing_Period: options?.Billing_Period || ["Monthly", "Quarterly", "Annually", "Hourly", "Daily"],
     Instance_Status: options?.Instance_Status || ["Active", "Stopped", "Suspended", "Terminated"],
     Service_Category: SERVICE_CATEGORIES,
   };
@@ -137,22 +144,20 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-md shadow-blue-500/10 animate-bounce">
             <Sparkles size={11} />Prediksi Biaya ML
           </div>
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-md shadow-emerald-500/10">
-            Akurasi Model: 95.2% (R² Score)
-          </div>
         </div>
         <h1 className="text-3xl font-black bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent tracking-tight pt-1">
           Kalkulator Biaya Cloud Komprehensif
         </h1>
         <p className="text-xs text-slate-500 font-bold max-w-lg leading-relaxed">
-          Isi 8 parameter arsitektur yang paling penting sesuai spesifikasi model Machine Learning Anda untuk memprediksi anggaran biaya Cloud secara akurat!
+          Isi parameter arsitektur cloud kamu untuk memprediksi total biaya operasional secara akurat menggunakan model XGBoost.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white/85 border border-slate-200/50 rounded-[32px] p-8 space-y-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] backdrop-blur-xl hover:shadow-[0_8px_40px_rgb(0,0,0,0.04)] transition-all duration-300">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white/85 border border-slate-200/50 rounded-[32px] p-8 space-y-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] backdrop-blur-xl transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
+            {/* Kiri: Parameter Konfigurasi */}
             <div className="space-y-5">
               <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest border-b border-blue-50 pb-2">
                 I. Parameter Konfigurasi
@@ -163,30 +168,46 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
               <SelectField label="Status Instansi" icon={ToggleLeft} value={input.Instance_Status} onChange={set("Instance_Status")} options={opts.Instance_Status} placeholder="Pilih status instansi" />
             </div>
 
+            {/* Kanan: Parameter Kapasitas & Penggunaan CPU */}
             <div className="space-y-5">
               <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest border-b border-blue-50 pb-2">
-                II. Parameter Kapasitas & Biaya
+                II. Kapasitas & Penggunaan CPU
               </h3>
-              <NumberField label="Kapasitas Penyimpanan (GB)" icon={HardDrive} value={input.Storage_Used_GB} onChange={set("Storage_Used_GB")} placeholder="0" />
-              <NumberField label="Biaya Komputasi ($)" icon={CreditCard} value={input.Compute_Cost} onChange={set("Compute_Cost")} prefix="$" placeholder="0" />
-              <NumberField label="Biaya Penyimpanan ($)" icon={Database} value={input.Storage_Cost} onChange={set("Storage_Cost")} prefix="$" placeholder="0" />
-              <NumberField label="Biaya Jaringan ($)" icon={Globe} value={input.Network_Cost} onChange={set("Network_Cost")} prefix="$" placeholder="0" />
+              <NumberField label="Storage Digunakan (GB)" icon={HardDrive} value={input.Storage_Used_GB} onChange={set("Storage_Used_GB")} placeholder="Contoh: 250" hint="Range dataset: 1 – 999 GB" />
+              <NumberField label="CPU Hours Dibutuhkan" icon={Cpu} value={input.Required_CPU_Hours} onChange={set("Required_CPU_Hours")} placeholder="Contoh: 372" hint="Range dataset: 1 – 744 jam" />
+              <NumberField label="CPU Hours Aktual" icon={Activity} value={input.Actual_CPU_Hours} onChange={set("Actual_CPU_Hours")} placeholder="Contoh: 400" hint="Range dataset: 1 – 744 jam" />
+              <NumberField label="Utilisasi CPU (%)" icon={Server} value={input.CPU_Utilization} onChange={set("CPU_Utilization")} placeholder="Contoh: 65" hint="Range dataset: 1 – 99%" />
             </div>
 
           </div>
+
+          {/* Biaya Komponen */}
+          <div className="space-y-4 pt-2 border-t border-slate-100">
+            <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest pb-1">
+              III. Biaya Komponen
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <NumberField label="Biaya Komputasi" icon={CreditCard} value={input.Compute_Cost} onChange={set("Compute_Cost")} prefix="$" placeholder="Contoh: 12.50" />
+              <NumberField label="Biaya Penyimpanan" icon={Database} value={input.Storage_Cost} onChange={set("Storage_Cost")} prefix="$" placeholder="Contoh: 8.00" />
+              <NumberField label="Biaya Jaringan" icon={Globe} value={input.Network_Cost} onChange={set("Network_Cost")} prefix="$" placeholder="Contoh: 5.00" />
+            </div>
+          </div>
+
         </div>
 
+        {/* Info Box */}
         <div className="p-4 bg-gradient-to-r from-blue-50/50 to-indigo-50/30 border border-blue-100/40 rounded-2xl flex items-start gap-3 text-[10px] font-bold text-slate-500 leading-relaxed shadow-sm">
           <Info size={14} className="text-blue-600 shrink-0 mt-0.5" />
           <span>
-            <strong>Catatan Cerdas:</strong> Untuk menyederhanakan pengisian, 7 parameter penunjang lainnya (seperti tipe proyek default <em>Testing</em>, provider <em>AWS Glacier</em>, durasi <em>720 jam</em>, utilitas CPU <em>75%</em>, dan tim pemilik) akan dikonfigurasi secara otomatis demi keakuratan prediksi model ML.
+            <strong>Catatan:</strong> Parameter penunjang seperti tipe proyek, provider cloud, dan tim pemilik dikonfigurasi otomatis. Model XGBoost menggunakan <strong>9 fitur utama</strong> dengan range output <strong>$3.70 – $66.33</strong> sesuai distribusi dataset training.
           </span>
         </div>
 
         <button type="submit" disabled={isLoading}
-          className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-500 hover:opacity-95 text-white font-black text-xs tracking-widest uppercase shadow-lg shadow-blue-500/25 transition duration-300 flex items-center justify-center gap-2 cursor-pointer hover:shadow-blue-500/45 hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
+          className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-500 hover:opacity-95 text-white font-black text-xs tracking-widest uppercase shadow-lg shadow-blue-500/25 transition duration-300 flex items-center justify-center gap-2 cursor-pointer hover:shadow-blue-500/45 hover:-translate-y-0.5 active:translate-y-0">
           {isLoading ? <><Loader2 size={15} className="animate-spin" />Memproses Estimasi...</> : <><Sparkles size={15} />Hitung Prediksi Biaya</>}
         </button>
+
       </form>
     </div>
   );

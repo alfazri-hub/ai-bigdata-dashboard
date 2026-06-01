@@ -72,7 +72,7 @@ export default function UnifiedDashboard() {
               CloudCost AI
             </span>
             <span className="text-blue-600 font-extrabold text-[10px] block mt-0.5 uppercase tracking-wider">
-              Kelompok Asik &bull; Prediktor Biaya ML
+              Kelompok Asik &bull; Prediksi Biaya ML
             </span>
           </div>
         </div>
@@ -103,7 +103,6 @@ export default function UnifiedDashboard() {
             <span>Hasil Prediksi</span>
           </button>
         </div>
-
         <div className="hidden md:flex items-center">
           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200/20">
             {history.length} Prediksi Sesi Ini
