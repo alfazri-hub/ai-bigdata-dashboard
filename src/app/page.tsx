@@ -49,7 +49,7 @@ export default function UnifiedDashboard() {
       console.error(e);
       setIsLoading(false);
       const errMsg = e?.message || "Terjadi kesalahan tidak dikenal.";
-      alert(`Gagal melakukan prediksi:\n${errMsg}\n\nPastikan server backend Anda berjalan di http://localhost:8000`);
+      alert(`Gagal melakukan prediksi:\n${errMsg}\n\nPastikan server backend Anda berjalan di https://cloudcost-backend-production.up.railway.app`);
     }
   };
 

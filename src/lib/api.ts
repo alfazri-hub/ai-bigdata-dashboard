@@ -1,7 +1,7 @@
 import { CloudCostInput, OptionsResponse } from "./types";
 import { calculateLocalCostPrediction, formatUSD } from "./utils";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://cloudcost-backend-production.up.railway.app";
 
 function buildOfflineResult(input: CloudCostInput, errorMsg: string) {
   const computeVal = Number(input.Compute_Cost) || 0;
