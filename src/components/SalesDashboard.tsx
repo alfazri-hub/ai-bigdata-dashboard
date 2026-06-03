@@ -207,16 +207,16 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
 
       {/* ═══ Main Cards Row ═══ */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-        {/* Card Prediksi Utama */}
-        <Card className="md:col-span-5 flex flex-col justify-between items-center text-center border-none bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 shadow-[0_20px_50px_rgba(59,130,246,0.15)] rounded-[32px] p-8 relative overflow-hidden text-white min-h-[260px]">
+        {/* Card 1: Estimasi Total Cost */}
+        <Card className="md:col-span-4 flex flex-col justify-between items-center text-center border-none bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 shadow-[0_20px_50px_rgba(59,130,246,0.15)] rounded-[32px] p-8 relative overflow-hidden text-white min-h-[260px]">
           <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-2xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full blur-xl pointer-events-none" />
           <div className="space-y-1 relative z-10">
             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-200">
-              Prediksi Total Biaya ML
+              💰 Estimasi Total Cost
             </span>
             <h3 className="text-xs text-blue-100 font-bold leading-relaxed">
-              Estimasi Pengeluaran Dasar
+              Hasil Perhitungan Biaya ML
             </h3>
           </div>
           <div className="my-4 relative z-10">
@@ -250,78 +250,71 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           </div>
         </Card>
 
-        {/* Card Status Beban */}
+        {/* Card 2: Status Efisiensi CPU */}
         <Card className="md:col-span-4 p-8 border border-slate-200/50 flex flex-col justify-between items-center text-center rounded-[32px] bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] min-h-[260px]">
           <div className="pb-3 border-b border-slate-100 w-full">
             <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center justify-center gap-1.5">
-              <Activity size={14} className="text-blue-500 animate-pulse" />{" "}
-              Status Beban Kerja
+              ⚙️ Status Efisiensi CPU
             </h3>
           </div>
-          <div className="my-4 flex flex-col items-center gap-3">
-            <span
-              className={`text-lg font-black uppercase px-5 py-2.5 rounded-2xl shadow-sm ${analisis.status_beban_kerja === "Kelebihan Beban"
-                ? "bg-rose-100 text-rose-700 animate-pulse"
-                : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
-                  ? "bg-amber-100 text-amber-700 animate-pulse"
-                  : "bg-emerald-100 text-emerald-700"
-                }`}
-            >
-              {analisis.status_beban_kerja}
-            </span>
-            <p className="text-[10px] text-slate-400 font-bold max-w-[180px] leading-relaxed">
-              Berdasarkan utilisasi CPU sebesar{" "}
-              <strong className="text-slate-700">
-                {input.CPU_Utilization}%
-              </strong>{" "}
-              dengan efisiensi{" "}
-              <strong className="text-slate-700">
-                {cpuEfficiency.toFixed(1)}%
-              </strong>
-              .
-            </p>
-          </div>
-          <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-            Health Check: OK
-          </div>
-        </Card>
-
-        {/* Card Akurasi Prediksi */}
-        <Card className="md:col-span-3 p-8 border border-slate-200/50 flex flex-col justify-between items-center text-center rounded-[32px] bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] min-h-[260px]">
-          <div className="pb-3 border-b border-slate-100 w-full">
-            <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center justify-center gap-1.5">
-              <Sparkles size={14} className="text-amber-500 animate-pulse" />{" "}
-              Akurasi Prediksi
-            </h3>
-          </div>
-          <div className="my-4 flex flex-col items-center gap-3">
-            <span
-              className={`text-4xl font-black ${akurasi >= 85
-                ? "text-emerald-600"
-                : akurasi >= 70
-                  ? "text-amber-500"
-                  : "text-rose-500"
-                }`}
-            >
-              {akurasi}%
+          <div className="my-4 flex flex-col items-center gap-3 w-full">
+            <span className="text-4xl font-black text-slate-800">
+              {(cpuEfficiency / 100).toFixed(2)}
             </span>
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-700 ${akurasi >= 85
-                  ? "bg-emerald-500"
-                  : akurasi >= 70
-                    ? "bg-amber-400"
-                    : "bg-rose-500"
-                  }`}
-                style={{ width: `${akurasi}%` }}
+                className={`h-full rounded-full transition-all duration-700 ${
+                  (cpuEfficiency / 100) >= 0.85
+                    ? "bg-emerald-500"
+                    : (cpuEfficiency / 100) >= 0.60
+                      ? "bg-amber-400"
+                      : "bg-rose-500"
+                }`}
+                style={{ width: `${Math.min(cpuEfficiency, 100)}%` }}
               />
             </div>
-            <p className="text-[10px] text-slate-400 font-bold max-w-[160px] leading-relaxed">
-              Tingkat kepercayaan model ML terhadap prediksi ini.
+            <p className="text-[10px] text-slate-400 font-bold max-w-[180px] leading-relaxed">
+              Rasio jam CPU aktual vs required (Utilisasi:{" "}
+              <strong className="text-slate-700">
+                {input.CPU_Utilization}%
+              </strong>
+              ).
             </p>
           </div>
           <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-            Max: 90.19%
+            Target Efisiensi: 1.00
+          </div>
+        </Card>
+
+        {/* Card 3: Rekomendasi Sistem */}
+        <Card className="md:col-span-4 p-8 border border-slate-200/50 flex flex-col justify-between items-center text-center rounded-[32px] bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] min-h-[260px]">
+          <div className="pb-3 border-b border-slate-100 w-full">
+            <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center justify-center gap-1.5">
+              📌 Rekomendasi Sistem
+            </h3>
+          </div>
+          <div className="my-4 flex flex-col items-center gap-3">
+            <span
+              className={`text-lg font-black uppercase px-5 py-2.5 rounded-2xl shadow-sm ${
+                analisis.status_beban_kerja === "Kelebihan Beban"
+                  ? "bg-rose-100 text-rose-700 animate-pulse"
+                  : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
+                    ? "bg-amber-100 text-amber-700 animate-pulse"
+                    : "bg-emerald-100 text-emerald-700"
+              }`}
+            >
+              {analisis.status_beban_kerja === "Kelebihan Beban"
+                ? "⚠️ Kelebihan Beban"
+                : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
+                  ? "⚠️ Kurang Dimanfaatkan"
+                  : "✅ Optimal"}
+            </span>
+            <p className="text-[9.5px] text-slate-500 font-bold max-w-[200px] leading-relaxed">
+              {analisis.rekomendasi_tindakan}
+            </p>
+          </div>
+          <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+            FinOps AI Recommendation
           </div>
         </Card>
       </div>
@@ -409,7 +402,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                 <ParamRow
                   icon={Zap}
                   label="Efisiensi CPU"
-                  value={`${cpuEfficiency.toFixed(1)}%`}
+                  value={`${(cpuEfficiency / 100).toFixed(2)}`}
                   accent="amber"
                 />
               </div>
