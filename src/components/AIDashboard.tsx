@@ -122,7 +122,7 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
       Network_Cost: Number(input.Network_Cost) || 0,
       Region: input.Region || "US-East-1",
       Owner_Team: "DevOps",
-      Instance_Status: input.Instance_Status || "Active",
+      Instance_Status: input.Instance_Status || "Running",
       Remarks: "Optimal",
     };
 
@@ -130,9 +130,42 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
   };
 
   const opts = {
-    Region: options?.Region || ["US-East-1", "US-West-2", "EU-West-1", "AP-Southeast-1", "Asia-East1"],
-    Billing_Period: options?.Billing_Period || ["Monthly", "Quarterly", "Annually", "Hourly", "Daily"],
-    Instance_Status: options?.Instance_Status || ["Active", "Stopped", "Suspended", "Terminated"],
+    Region: options?.Region || [
+      "Africa-North1",
+      "Asia-East1",
+      "Asia-South1",
+      "Asia-Southeast1",
+      "Australia-East1",
+      "Europe-North1",
+      "Europe-West3",
+      "SouthAmerica-East1",
+      "US-Central-1",
+      "US-East-1",
+      "US-West-2"
+    ],
+    Billing_Period: options?.Billing_Period || [
+      "Annually",
+      "Daily",
+      "Hourly",
+      "Monthly",
+      "Quarterly",
+      "Weekly"
+    ],
+    Instance_Status: options?.Instance_Status || [
+      "Archived",
+      "Decommissioned",
+      "Error",
+      "Idle",
+      "Maintenance",
+      "Migrating",
+      "Pending",
+      "Restarting",
+      "Running",
+      "Scaling",
+      "Stopped",
+      "Suspended",
+      "Terminated"
+    ],
     Service_Category: SERVICE_CATEGORIES,
   };
 
