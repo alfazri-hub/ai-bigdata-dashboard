@@ -127,9 +127,9 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
     proyeksi_estimasi_biaya: safeBiaya * 1.05,
     nilai_potensi_penghematan: safeBiaya * 0.2,
     status_beban_kerja:
-      safeCPU > 85
+      safeCPU > 100
         ? "Kelebihan Beban"
-        : safeCPU < 35
+        : safeCPU < 60
           ? "Kurang Dimanfaatkan"
           : "Optimal",
     indikator_deteksi_anomali:
@@ -137,7 +137,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
         ? 1
         : 0,
     rekomendasi_tindakan:
-      safeCPU < 35
+      safeCPU < 60
         ? "Kurangi alokasi CPU karena utilisasi rendah."
         : "Pertahankan arsitektur cloud Anda yang efisien.",
   };
@@ -261,10 +261,10 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           <div className="my-4 flex flex-col items-center gap-3">
             <span
               className={`text-lg font-black uppercase px-5 py-2.5 rounded-2xl shadow-sm ${analisis.status_beban_kerja === "Kelebihan Beban"
-                  ? "bg-rose-100 text-rose-700 animate-pulse"
-                  : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
-                    ? "bg-amber-100 text-amber-700 animate-pulse"
-                    : "bg-emerald-100 text-emerald-700"
+                ? "bg-rose-100 text-rose-700 animate-pulse"
+                : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
+                  ? "bg-amber-100 text-amber-700 animate-pulse"
+                  : "bg-emerald-100 text-emerald-700"
                 }`}
             >
               {analisis.status_beban_kerja}
@@ -297,10 +297,10 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           <div className="my-4 flex flex-col items-center gap-3">
             <span
               className={`text-4xl font-black ${akurasi >= 85
-                  ? "text-emerald-600"
-                  : akurasi >= 70
-                    ? "text-amber-500"
-                    : "text-rose-500"
+                ? "text-emerald-600"
+                : akurasi >= 70
+                  ? "text-amber-500"
+                  : "text-rose-500"
                 }`}
             >
               {akurasi}%
@@ -308,10 +308,10 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-700 ${akurasi >= 85
-                    ? "bg-emerald-500"
-                    : akurasi >= 70
-                      ? "bg-amber-400"
-                      : "bg-rose-500"
+                  ? "bg-emerald-500"
+                  : akurasi >= 70
+                    ? "bg-amber-400"
+                    : "bg-rose-500"
                   }`}
                 style={{ width: `${akurasi}%` }}
               />
@@ -344,20 +344,6 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setShowAllParams(!showAllParams)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              {showAllParams ? (
-                <>
-                  <ChevronUp size={12} /> Ringkas
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={12} /> Tampilkan Semua
-                </>
-              )}
-            </button>
           </div>
         </div>
 
@@ -393,34 +379,6 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                   value={input.Instance_Status}
                   accent="emerald"
                 />
-                {showAllParams && (
-                  <>
-                    <ParamRow
-                      icon={Layers}
-                      label="Tipe Proyek"
-                      value={input.Project_Type}
-                      accent="amber"
-                    />
-                    <ParamRow
-                      icon={Cloud}
-                      label="Layanan Cloud"
-                      value={input.Cloud_Service}
-                      accent="cyan"
-                    />
-                    <ParamRow
-                      icon={Users}
-                      label="Tim Pemilik"
-                      value={input.Owner_Team}
-                      accent="indigo"
-                    />
-                    <ParamRow
-                      icon={FileText}
-                      label="Catatan (Remarks)"
-                      value={input.Remarks}
-                      accent="blue"
-                    />
-                  </>
-                )}
               </div>
             </div>
 
@@ -460,7 +418,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
             {/* Column 3 — Biaya & Kapasitas */}
             <div>
               <div className="text-[9px] font-black text-amber-500 uppercase tracking-[0.2em] mb-2 flex items-center gap-1.5 px-1">
-                <CreditCard size={10} /> Biaya & Penyimpanan
+                <CreditCard size={10} /> Penyimpanan
               </div>
               <div className="divide-y divide-slate-100">
                 <ParamRow
@@ -469,101 +427,11 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                   value={`${input.Storage_Used_GB.toLocaleString()} GB`}
                   accent="cyan"
                 />
-                <ParamRow
-                  icon={CreditCard}
-                  label="Biaya Komputasi"
-                  value={formatUSD(Number(input.Compute_Cost))}
-                  accent="amber"
-                />
-                <ParamRow
-                  icon={HardDrive}
-                  label="Biaya Penyimpanan"
-                  value={formatUSD(Number(input.Storage_Cost))}
-                  accent="indigo"
-                />
-                <ParamRow
-                  icon={Globe}
-                  label="Biaya Jaringan"
-                  value={formatUSD(Number(input.Network_Cost))}
-                  accent="rose"
-                />
               </div>
             </div>
           </div>
         </div>
       </Card>
-
-      {/* ═══ Bottom Analysis Cards ═══ */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 animate-fade-in-up">
-        {/* Proyeksi */}
-        <Card className="p-6 border border-slate-200/80 space-y-4 rounded-[28px] bg-white/80 backdrop-blur-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-              <TrendingUp size={14} className="text-indigo-500" /> Proyeksi
-              Bulan Depan
-            </h4>
-            <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-indigo-50 text-indigo-600">
-              Tren
-            </span>
-          </div>
-          <div className="space-y-2">
-            <div className="text-2xl font-black text-slate-800 tracking-tight">
-              {formatUSD(analisis.proyeksi_estimasi_biaya)}
-            </div>
-            <p className="text-[9.5px] text-slate-400 font-semibold leading-relaxed">
-              Estimasi total pengeluaran bulan depan berdasarkan tren parameter
-              input.
-            </p>
-          </div>
-        </Card>
-
-        {/* Penghematan */}
-        <Card className="p-6 border border-slate-200/80 space-y-4 rounded-[28px] bg-white/80 backdrop-blur-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-              <DollarSign
-                size={14}
-                className="text-emerald-500 animate-pulse"
-              />{" "}
-              Potensi Penghematan
-            </h4>
-            <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-600">
-              Optimal
-            </span>
-          </div>
-          <div className="space-y-2">
-            <div className="text-2xl font-black text-emerald-600 tracking-tight">
-              {formatUSD(analisis.nilai_potensi_penghematan)}
-            </div>
-            <p className="text-[9.5px] text-slate-400 font-semibold leading-relaxed">
-              Biaya yang dapat dihemat dengan menyelaraskan CPU aktual ke CPU
-              required.
-            </p>
-          </div>
-        </Card>
-
-        {/* Rekomendasi */}
-        <Card className="p-6 border border-slate-200/80 space-y-4 rounded-[28px] bg-white/80 backdrop-blur-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-              <Sparkles size={14} className="text-amber-500" /> Rekomendasi
-              Tindakan
-            </h4>
-            <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-amber-50 text-amber-600">
-              Saran AI
-            </span>
-          </div>
-          <div className="space-y-2">
-            <div className="text-xs font-black text-blue-600 leading-snug">
-              {analisis.rekomendasi_tindakan}
-            </div>
-            <p className="text-[9.5px] text-slate-400 font-semibold leading-relaxed">
-              Tindakan spesifik berdasarkan kondisi utilisasi dan efisiensi
-              cloud Anda.
-            </p>
-          </div>
-        </Card>
-      </div>
     </div>
   );
 };

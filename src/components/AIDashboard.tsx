@@ -180,19 +180,6 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
             </div>
 
           </div>
-
-          {/* Biaya Komponen */}
-          <div className="space-y-4 pt-2 border-t border-slate-100">
-            <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest pb-1">
-              III. Biaya Komponen
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <NumberField label="Biaya Komputasi" icon={CreditCard} value={input.Compute_Cost} onChange={set("Compute_Cost")} prefix="$" placeholder="Contoh: 12.50" />
-              <NumberField label="Biaya Penyimpanan" icon={Database} value={input.Storage_Cost} onChange={set("Storage_Cost")} prefix="$" placeholder="Contoh: 8.00" />
-              <NumberField label="Biaya Jaringan" icon={Globe} value={input.Network_Cost} onChange={set("Network_Cost")} prefix="$" placeholder="Contoh: 5.00" />
-            </div>
-          </div>
-
         </div>
 
         {/* Info Box */}

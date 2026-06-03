@@ -20,20 +20,20 @@ function buildOfflineResult(input: CloudCostInput, errorMsg: string) {
     const perJam = computeVal / (input.Actual_CPU_Hours || 1);
     potensi_penghematan = (input.Actual_CPU_Hours - input.Required_CPU_Hours) * perJam;
   }
-  if (input.CPU_Utilization < 35) {
+  if (input.CPU_Utilization < 60) {
     potensi_penghematan += computeVal * 0.3;
   }
   potensi_penghematan = Math.round(potensi_penghematan * 100) / 100;
 
-  const workloadStatus = input.CPU_Utilization > 85 ? "Kelebihan Beban" : input.CPU_Utilization < 35 ? "Kurang Dimanfaatkan" : "Optimal";
+  const workloadStatus = input.CPU_Utilization > 100 ? "Kelebihan Beban" : input.CPU_Utilization < 60 ? "Kurang Dimanfaatkan" : "Optimal";
   const anomaly = (input.CPU_Utilization > 95 || (computeVal > 0 && networkVal > (computeVal * 1.5))) ? 1 : 0;
 
   let recommendation = "Pertahankan arsitektur cloud Anda yang efisien.";
   if (computeVal > 0 && networkVal > (computeVal * 1.5)) {
     recommendation = "Cek anomali pada biaya jaringan.";
-  } else if (input.CPU_Utilization < 35) {
+  } else if (input.CPU_Utilization < 60) {
     recommendation = "Kurangi alokasi CPU karena utilisasi rendah.";
-  } else if (input.CPU_Utilization > 85) {
+  } else if (input.CPU_Utilization > 100) {
     recommendation = "Tingkatkan kapasitas CPU untuk menghindari kegagalan sistem.";
   }
 
