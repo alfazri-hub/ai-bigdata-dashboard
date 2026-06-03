@@ -63,7 +63,10 @@ export async function predictBiaya(input: CloudCostInput) {
       signal: controller.signal,
     });
     clearTimeout(id);
-    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    if (!res.ok) {
+      console.warn(`Server error ${res.status}, falling back to offline estimation.`);
+      return buildOfflineResult(input, `Server error: ${res.status}. Menjalankan estimasi luring.`);
+    }
     const data = await res.json();
 
     // Backend returned an error object (e.g. model crash) instead of prediction
@@ -81,15 +84,8 @@ export async function predictBiaya(input: CloudCostInput) {
     return data;
   } catch (err: any) {
     clearTimeout(id);
-    const isNetworkError = err.name === "AbortError" ||
-      err.message?.includes("Failed to fetch") ||
-      err.message?.includes("fetch") ||
-      err.message?.includes("NetworkError");
-
-    if (isNetworkError) {
-      return buildOfflineResult(input, "Gagal terhubung ke API backend. Menjalankan estimasi luring.");
-    }
-    throw err;
+    console.warn("Prediction error, falling back to offline:", err);
+    return buildOfflineResult(input, `Gagal terhubung ke API backend (${err.message || err}). Menjalankan estimasi luring.`);
   }
 }
 

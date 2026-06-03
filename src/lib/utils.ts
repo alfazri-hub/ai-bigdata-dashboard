@@ -155,9 +155,13 @@ export function formatUSD(amount: number): string {
  * Generates local heuristic cost prediction in case the FastAPI ML model is offline
  */
 export function calculateLocalCostPrediction(input: CloudCostInput) {
-  const compute = Number(input.Compute_Cost) || 0;
-  const storage = Number(input.Storage_Cost) || 0;
-  const network = Number(input.Network_Cost) || 0;
+  const actualHours = Number(input.Actual_CPU_Hours) || 0;
+  const storageGB = Number(input.Storage_Used_GB) || 0;
+
+  // Estimate components realistically if they are 0 (as they are removed from UI form)
+  const compute = Number(input.Compute_Cost) || (actualHours * 0.045);
+  const storage = Number(input.Storage_Cost) || (storageGB * 0.025);
+  const network = Number(input.Network_Cost) || ((compute + storage) * 0.06);
   
   // Base sum of components
   let baseSum = compute + storage + network;
@@ -165,7 +169,6 @@ export function calculateLocalCostPrediction(input: CloudCostInput) {
   // Heuristic adjustments mimicking ML weights:
   // 1. Overrun penalty: If actual hours exceed required hours, add dynamic overhead
   const requiredHours = Number(input.Required_CPU_Hours) || 1;
-  const actualHours = Number(input.Actual_CPU_Hours) || 1;
   if (actualHours > requiredHours) {
     const overrunRatio = (actualHours - requiredHours) / requiredHours;
     baseSum += baseSum * Math.min(0.25, overrunRatio * 0.4); 
@@ -197,7 +200,9 @@ export function calculateLocalCostPrediction(input: CloudCostInput) {
     baseSum *= 0.96;
   }
 
-  const prediksi_biaya = Math.round(baseSum * 100) / 100;
+  let prediksi_biaya = Math.round(baseSum * 100) / 100;
+  // Clip to dataset/ML limits ($3.70 - $66.33)
+  prediksi_biaya = Math.max(3.70, Math.min(66.33, prediksi_biaya));
   
   return {
     prediksi_biaya,
