@@ -9,6 +9,9 @@ interface PredictionContextType {
   history: PredictionResult[];
   isLoading: boolean;
   handlePredict: (input: CloudCostInput) => Promise<void>;
+  setPredictionResult: (result: PredictionResult | null) => void;
+  clearHistory: () => void;
+  deleteHistoryItem: (timestamp: string) => void;
 }
 
 const PredictionContext = createContext<PredictionContextType | undefined>(undefined);
@@ -59,8 +62,40 @@ export const PredictionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const selectPredictionResult = (result: PredictionResult | null) => {
+    setPredictionResult(result);
+    if (result) {
+      localStorage.setItem("cloudcost_prediction_result", JSON.stringify(result));
+    } else {
+      localStorage.removeItem("cloudcost_prediction_result");
+    }
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem("cloudcost_prediction_history");
+  };
+
+  const deleteHistoryItem = (timestamp: string) => {
+    setHistory((prevHistory) => {
+      const updatedHistory = prevHistory.filter((item) => item.timestamp !== timestamp);
+      localStorage.setItem("cloudcost_prediction_history", JSON.stringify(updatedHistory));
+      return updatedHistory;
+    });
+  };
+
   return (
-    <PredictionContext.Provider value={{ predictionResult, history, isLoading, handlePredict }}>
+    <PredictionContext.Provider
+      value={{
+        predictionResult,
+        history,
+        isLoading,
+        handlePredict,
+        setPredictionResult: selectPredictionResult,
+        clearHistory,
+        deleteHistoryItem,
+      }}
+    >
       {children}
     </PredictionContext.Provider>
   );

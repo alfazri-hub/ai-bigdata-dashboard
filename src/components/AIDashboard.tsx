@@ -24,20 +24,20 @@ const SelectField = ({ label, icon: Icon, value, onChange, options, placeholder 
   onChange: (v: string) => void; options: { value: string; label: string }[] | string[]; placeholder: string;
 }) => (
   <div className="space-y-2">
-    <label className="text-[10px] font-black text-slate-650 uppercase tracking-widest flex items-center gap-1.5 ml-1">
-      <Icon size={12} className="text-blue-600 animate-pulse" />{label}
+    <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 ml-1">
+      <Icon size={13} className="text-blue-400" />{label}
     </label>
     <div className="relative">
       <select value={value} onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 pl-4 pr-9 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm">
-        <option value="">{placeholder}</option>
+        className="w-full appearance-none bg-[#121226]/50 hover:bg-[#121226]/75 border border-white/10 text-white rounded-2xl py-3.5 pl-4 pr-9 text-xs font-semibold outline-none focus:bg-[#121226] focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition shadow-md">
+        <option value="" className="bg-[#121226] text-gray-300">{placeholder}</option>
         {options.map((o) => {
           const val = typeof o === "string" ? o : o.value;
           const lbl = typeof o === "string" ? o : o.label;
-          return <option key={val} value={val}>{lbl}</option>;
+          return <option key={val} value={val} className="bg-[#121226] text-white">{lbl}</option>;
         })}
       </select>
-      <ChevronDown size={14} className="absolute right-3.5 top-4 text-slate-450 pointer-events-none" />
+      <ChevronDown size={14} className="absolute right-3.5 top-4 text-gray-500 pointer-events-none" />
     </div>
   </div>
 );
@@ -47,19 +47,19 @@ const NumberField = ({ label, icon: Icon, value, onChange, placeholder, prefix, 
   onChange: (v: number | "") => void; placeholder?: string; prefix?: string; hint?: string;
 }) => (
   <div className="space-y-2">
-    <label className="text-[10px] font-black text-slate-650 uppercase tracking-widest flex items-center gap-1.5 ml-1">
-      <Icon size={12} className="text-blue-600 animate-pulse" />{label}
+    <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 ml-1">
+      <Icon size={13} className="text-blue-400" />{label}
     </label>
     <div className="relative">
-      {prefix && <span className="absolute left-4 top-3.5 text-xs font-black text-slate-400">{prefix}</span>}
+      {prefix && <span className="absolute left-4 top-3.5 text-xs font-semibold text-gray-450">{prefix}</span>}
       <input type="number" min={0} value={value} onChange={(e) => {
         const val = e.target.value;
         onChange(val === "" ? "" : parseFloat(val) || 0);
       }}
         placeholder={placeholder || "0"}
-        className={`w-full bg-white hover:bg-slate-50/50 border border-slate-200 text-slate-800 rounded-2xl py-3.5 text-xs font-bold outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition shadow-sm ${prefix ? "pl-8 pr-4" : "px-4"}`} />
+        className={`w-full bg-[#121226]/50 hover:bg-[#121226]/75 border border-white/10 text-white rounded-2xl py-3.5 text-xs font-semibold outline-none focus:bg-[#121226] focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition shadow-md ${prefix ? "pl-8 pr-4" : "px-4"}`} />
     </div>
-    {hint && <p className="text-[9px] text-slate-400 font-semibold ml-1">{hint}</p>}
+    {hint && <p className="text-[10px] text-gray-500 font-medium ml-1">{hint}</p>}
   </div>
 );
 
@@ -110,33 +110,34 @@ export const AIDashboard: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[850px] mx-auto w-full px-6 py-12 animate-fade-in relative z-10">
+    <div className="max-w-[850px] mx-auto w-full px-6 py-8 md:py-12 animate-fade-in relative z-10">
       <div className="mb-10 space-y-3 text-center sm:text-left">
         <div className="flex flex-wrap justify-center sm:justify-start gap-2.5">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-md shadow-blue-500/10 animate-bounce">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 text-blue-400 px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-md animate-bounce">
             <Sparkles size={11} />Prediksi Biaya ML
           </div>
         </div>
-        <h1 className="text-3xl font-black bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent tracking-tight pt-1">
+        <h1 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent tracking-tight pt-1">
           Kalkulator Biaya Cloud Komprehensif
         </h1>
-        <p className="text-xs text-slate-500 font-bold max-w-lg leading-relaxed">
+        <p className="text-sm text-gray-400 font-medium max-w-lg leading-relaxed">
           Isi parameter arsitektur cloud kamu untuk memprediksi total biaya operasional secara akurat.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white/85 border border-slate-200/50 rounded-[32px] p-8 space-y-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] backdrop-blur-xl transition-all duration-300">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="bg-[#121226]/80 border border-white/5 backdrop-blur-sm rounded-[32px] p-8 space-y-6 shadow-xl shadow-black/25 relative overflow-hidden group hover:border-blue-500/10 transition-all duration-300">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-all"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
             <div className="space-y-5">
-              <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest border-b border-blue-50 pb-2">I. Parameter Konfigurasi</h3>
+              <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wider border-b border-white/10 pb-2">I. Parameter Konfigurasi</h3>
               <SelectField label="Kategori Layanan" icon={Server} value={input.Service_Category} onChange={set("Service_Category")} options={opts.Service_Category} placeholder="Pilih kategori layanan" />
               <SelectField label="Wilayah (Region)" icon={MapPin} value={input.Region} onChange={set("Region")} options={opts.Region} placeholder="Pilih wilayah region" />
               <SelectField label="Periode Tagihan" icon={Calendar} value={input.Billing_Period} onChange={set("Billing_Period")} options={opts.Billing_Period} placeholder="Pilih periode tagihan" />
               <SelectField label="Status Instansi" icon={ToggleLeft} value={input.Instance_Status} onChange={set("Instance_Status")} options={opts.Instance_Status} placeholder="Pilih status instansi" />
             </div>
             <div className="space-y-5">
-              <h3 className="text-xs font-black text-blue-600 uppercase tracking-widest border-b border-blue-50 pb-2">II. Kapasitas & Penggunaan CPU</h3>
+              <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wider border-b border-white/10 pb-2">II. Kapasitas & Penggunaan CPU</h3>
               <NumberField label="Storage Digunakan (GB)" icon={HardDrive} value={input.Storage_Used_GB} onChange={set("Storage_Used_GB")} placeholder="Contoh: 250" hint="Range dataset: 1 – 999 GB" />
               <NumberField label="CPU Hours Dibutuhkan" icon={Cpu} value={input.Required_CPU_Hours} onChange={set("Required_CPU_Hours")} placeholder="Contoh: 372" hint="Range dataset: 1 – 744 jam" />
               <NumberField label="CPU Hours Aktual" icon={Activity} value={input.Actual_CPU_Hours} onChange={set("Actual_CPU_Hours")} placeholder="Contoh: 400" hint="Range dataset: 1 – 744 jam" />
@@ -144,15 +145,7 @@ export const AIDashboard: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <div className="p-4 bg-gradient-to-r from-blue-50/50 to-indigo-50/30 border border-blue-100/40 rounded-2xl flex items-start gap-3 text-[10px] font-bold text-slate-500 leading-relaxed shadow-sm">
-          <Info size={14} className="text-blue-600 shrink-0 mt-0.5" />
-          <span>
-            <strong>Catatan:</strong> Parameter penunjang dikonfigurasi otomatis. Model XGBoost menggunakan <strong>9 fitur utama</strong> dengan range output <strong>$3.70 – $66.33</strong> sesuai distribusi dataset training.
-          </span>
-        </div>
-
-        <button type="submit" disabled={isLoading} className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-500 hover:opacity-95 text-white font-black text-xs tracking-widest uppercase shadow-lg shadow-blue-500/25 transition duration-300 flex items-center justify-center gap-2 cursor-pointer hover:shadow-blue-500/45 hover:-translate-y-0.5 active:translate-y-0">
+        <button type="submit" disabled={isLoading} className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 text-white font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-blue-500/25 transition duration-300 flex items-center justify-center gap-2 cursor-pointer hover:shadow-blue-500/40 hover:-translate-y-0.5 active:translate-y-0">
           {isLoading ? <><Loader2 size={15} className="animate-spin" />Memproses Estimasi...</> : <><Sparkles size={15} />Hitung Prediksi Biaya</>}
         </button>
       </form>

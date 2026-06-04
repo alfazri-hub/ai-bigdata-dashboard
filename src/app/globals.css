@@ -10,8 +10,8 @@ html {
 
 body {
   min-height: 100vh;
-  background: #f8fafc;
-  color: #0f172a;
+  background: #05050f;
+  color: #ffffff;
 }
 
 /* Custom Scrollbar */
@@ -148,11 +148,6 @@ body {
 
 /* Selection style override */
 ::selection {
-  background: rgba(99, 102, 241, 0.2);
-  color: #4f46e5;
-}
-
-.dark ::selection {
-  background: rgba(129, 140, 248, 0.3);
-  color: #e0e7ff;
+  background: rgba(168, 85, 247, 0.3);
+  color: #e9d5ff;
 }

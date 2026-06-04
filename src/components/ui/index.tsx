@@ -48,11 +48,11 @@ export function Button({
   const baseStyles = "inline-flex items-center justify-center font-medium rounded-2xl transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 active:scale-98 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer";
 
   const variants = {
-    primary: "bg-slate-900 hover:bg-slate-800 text-white shadow-sm border border-slate-950 focus:ring-slate-950 focus:ring-offset-white",
-    secondary: "bg-slate-100 hover:bg-slate-200 text-slate-700 focus:ring-slate-200 focus:ring-offset-white",
-    glow: "bg-emerald-500 hover:bg-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_20px_rgba(16,185,129,0.5)] border border-emerald-500 focus:ring-emerald-500 focus:ring-offset-white",
-    outline: "bg-transparent border border-slate-200 hover:border-slate-300 text-slate-600 hover:bg-slate-50 focus:ring-slate-200 focus:ring-offset-white",
-    ghost: "bg-transparent hover:bg-slate-50 text-slate-600 focus:ring-slate-100 focus:ring-offset-white",
+    primary: "bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 text-white shadow-lg shadow-blue-500/10 border border-white/10 focus:ring-purple-500 focus:ring-offset-black",
+    secondary: "bg-white/10 hover:bg-white/15 text-white border border-white/5 focus:ring-white/20 focus:ring-offset-black",
+    glow: "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] border border-blue-500/30 focus:ring-blue-500 focus:ring-offset-black",
+    outline: "bg-transparent border border-white/10 hover:bg-white/5 text-gray-300 hover:text-white focus:ring-white/10 focus:ring-offset-black",
+    ghost: "bg-transparent hover:bg-white/5 text-gray-400 hover:text-white focus:ring-white/5 focus:ring-offset-black",
   };
 
   const sizes = {
@@ -114,16 +114,16 @@ export function Card({
   const baseStyles = "rounded-[28px] border transition-all duration-300";
 
   const variants = {
-    default: "bg-white dark:bg-slate-950 border-slate-200/80 dark:border-slate-800/80 shadow-sm shadow-slate-100/50 dark:shadow-none",
-    glass: "glass-light shadow-sm",
-    dark: "bg-slate-900 border-slate-800 text-white shadow-xl shadow-slate-950/20",
-    outline: "bg-transparent border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300",
-    glow: "bg-white dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]",
-    "glow-purple": "bg-slate-900/95 border-slate-800 text-white shadow-xl hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]",
+    default: "bg-[#121226]/85 border-white/5 backdrop-blur-md shadow-lg shadow-black/35 text-white",
+    glass: "bg-[#121226]/60 border-white/5 backdrop-blur-lg shadow-lg shadow-black/25 text-white",
+    dark: "bg-[#0a0a16]/95 border-white/10 text-white shadow-2xl",
+    outline: "bg-transparent border-white/10 text-gray-300",
+    glow: "bg-[#121226]/80 border-white/5 backdrop-blur-sm shadow-md hover:border-blue-500/30 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] text-white",
+    "glow-purple": "bg-[#121226]/80 border-white/5 backdrop-blur-sm shadow-md hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white",
   };
 
   const hoverStyles = hoverable
-    ? "hover:-translate-y-1 hover:shadow-md cursor-pointer"
+    ? "hover:-translate-y-1.5 hover:shadow-xl cursor-pointer"
     : "";
 
   return (
@@ -248,7 +248,7 @@ export function Input({
           id={id}
           type={type}
           className={cn(
-            "w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-2xl py-3 px-4 text-sm font-medium transition-all outline-none focus:bg-white focus:border-slate-400 dark:focus:border-slate-700 focus:ring-2 focus:ring-slate-100 dark:focus:ring-slate-900",
+            "w-full bg-[#121226]/50 border border-white/10 text-white rounded-2xl py-3 px-4 text-sm font-medium transition-all outline-none focus:bg-[#121226]/85 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10",
             leftIcon ? "pl-11" : "",
             rightIcon ? "pr-11" : "",
             error ? "border-rose-400 focus:border-rose-400 focus:ring-rose-50 dark:focus:ring-rose-950/20" : "",
