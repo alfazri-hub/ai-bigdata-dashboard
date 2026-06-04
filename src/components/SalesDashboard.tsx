@@ -157,11 +157,6 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-black bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 bg-clip-text text-transparent tracking-tight flex items-center gap-2 flex-wrap">
             Hasil Analisis Estimasi Biaya
-            {activeResult.error && (
-              <span className="text-[9px] font-black text-amber-600 bg-amber-50 border border-amber-200/50 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                Mode Luring (Offline)
-              </span>
-            )}
           </h1>
           <p className="text-slate-500 text-xs mt-1 truncate font-semibold flex items-center gap-1.5">
             <Clock size={11} className="text-blue-400" />
@@ -263,13 +258,12 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
             </span>
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-700 ${
-                  (cpuEfficiency / 100) >= 0.85
+                className={`h-full rounded-full transition-all duration-700 ${(cpuEfficiency / 100) >= 0.85
                     ? "bg-emerald-500"
                     : (cpuEfficiency / 100) >= 0.60
                       ? "bg-amber-400"
                       : "bg-rose-500"
-                }`}
+                  }`}
                 style={{ width: `${Math.min(cpuEfficiency, 100)}%` }}
               />
             </div>
@@ -295,13 +289,12 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           </div>
           <div className="my-4 flex flex-col items-center gap-3">
             <span
-              className={`text-lg font-black uppercase px-5 py-2.5 rounded-2xl shadow-sm ${
-                analisis.status_beban_kerja === "Kelebihan Beban"
+              className={`text-lg font-black uppercase px-5 py-2.5 rounded-2xl shadow-sm ${analisis.status_beban_kerja === "Kelebihan Beban"
                   ? "bg-rose-100 text-rose-700 animate-pulse"
                   : analisis.status_beban_kerja === "Kurang Dimanfaatkan"
                     ? "bg-amber-100 text-amber-700 animate-pulse"
                     : "bg-emerald-100 text-emerald-700"
-              }`}
+                }`}
             >
               {analisis.status_beban_kerja === "Kelebihan Beban"
                 ? "⚠️ Kelebihan Beban"

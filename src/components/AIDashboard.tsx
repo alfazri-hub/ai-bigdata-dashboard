@@ -182,7 +182,7 @@ export const AIDashboard: React.FC<AIDashboardProps> = ({ onPredict, isLoading }
           Kalkulator Biaya Cloud Komprehensif
         </h1>
         <p className="text-xs text-slate-500 font-bold max-w-lg leading-relaxed">
-          Isi parameter arsitektur cloud kamu untuk memprediksi total biaya operasional secara akurat menggunakan model XGBoost.
+          Isi parameter arsitektur cloud kamu untuk memprediksi total biaya operasional secara akurat.
         </p>
       </div>
 
