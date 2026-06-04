@@ -1,9 +1,9 @@
-import { CloudCostInput, OptionsResponse } from "./types";
+import { CloudCostInput, OptionsResponse, PredictionResult } from "./types";
 import { calculateLocalCostPrediction, formatUSD } from "./utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://cloudcost-backend-production.up.railway.app";
 
-function buildOfflineResult(input: CloudCostInput, errorMsg: string) {
+function buildOfflineResult(input: CloudCostInput, errorMsg: string): PredictionResult {
   const computeVal = Number(input.Compute_Cost) || 0;
   const storageVal = Number(input.Storage_Cost) || 0;
   const networkVal = Number(input.Network_Cost) || 0;
@@ -47,11 +47,13 @@ function buildOfflineResult(input: CloudCostInput, errorMsg: string) {
       indikator_deteksi_anomali: anomaly,
       rekomendasi_tindakan: recommendation
     },
-    error: errorMsg
+    error: errorMsg,
+    input,
+    timestamp: new Date().toLocaleString()
   };
 }
 
-export async function predictBiaya(input: CloudCostInput) {
+export async function predictBiaya(input: CloudCostInput): Promise<PredictionResult> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), 8000);
 
@@ -81,7 +83,15 @@ export async function predictBiaya(input: CloudCostInput) {
       return buildOfflineResult(input, "Backend mengembalikan data tidak valid. Menjalankan estimasi luring.");
     }
 
-    return data;
+    return {
+      prediksi_biaya: data.prediksi_biaya,
+      formatted: data.formatted || formatUSD(data.prediksi_biaya),
+      akurasi_prediksi: data.akurasi_prediksi,
+      analisis_tambahan: data.analisis_tambahan,
+      input: data.input_parameters || input,
+      timestamp: new Date().toLocaleString(),
+      error: data.error
+    };
   } catch (err: any) {
     clearTimeout(id);
     console.warn("Prediction error, falling back to offline:", err);

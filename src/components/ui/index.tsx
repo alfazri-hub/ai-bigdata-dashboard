@@ -46,7 +46,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles = "inline-flex items-center justify-center font-medium rounded-2xl transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 active:scale-98 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer";
-  
+
   const variants = {
     primary: "bg-slate-900 hover:bg-slate-800 text-white shadow-sm border border-slate-950 focus:ring-slate-950 focus:ring-offset-white",
     secondary: "bg-slate-100 hover:bg-slate-200 text-slate-700 focus:ring-slate-200 focus:ring-offset-white",
@@ -112,7 +112,7 @@ export function Card({
   ...props
 }: CardProps) {
   const baseStyles = "rounded-[28px] border transition-all duration-300";
-  
+
   const variants = {
     default: "bg-white dark:bg-slate-950 border-slate-200/80 dark:border-slate-800/80 shadow-sm shadow-slate-100/50 dark:shadow-none",
     glass: "glass-light shadow-sm",
@@ -122,8 +122,8 @@ export function Card({
     "glow-purple": "bg-slate-900/95 border-slate-800 text-white shadow-xl hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]",
   };
 
-  const hoverStyles = hoverable 
-    ? "hover:-translate-y-1 hover:shadow-md cursor-pointer" 
+  const hoverStyles = hoverable
+    ? "hover:-translate-y-1 hover:shadow-md cursor-pointer"
     : "";
 
   return (
@@ -300,11 +300,11 @@ export function Modal({
       }
     };
     window.addEventListener("keydown", handleEscape);
-    
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
     }
-    
+
     return () => {
       window.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "unset";
@@ -327,14 +327,14 @@ export function Modal({
 
   const modalStyles = variant === "center"
     ? cn(
-        "relative w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[32px] shadow-2xl p-6 overflow-hidden max-h-[90vh] flex flex-col animate-fade-in-up",
-        sizes[size],
-        className
-      )
+      "relative w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[32px] shadow-2xl p-6 overflow-hidden max-h-[90vh] flex flex-col animate-fade-in-up",
+      sizes[size],
+      className
+    )
     : cn(
-        "relative w-full max-w-lg h-screen bg-white dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800 shadow-2xl p-8 flex flex-col justify-between animate-slide-in-right",
-        className
-      );
+      "relative w-full max-w-lg h-screen bg-white dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800 shadow-2xl p-8 flex flex-col justify-between animate-slide-in-right",
+      className
+    );
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
