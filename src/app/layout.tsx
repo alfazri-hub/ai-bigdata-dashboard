@@ -21,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-[#05050f] text-slate-100 font-sans flex flex-col relative overflow-x-hidden`}>
         <PredictionProvider>
-          <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
-          <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
+          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div className="absolute -top-[200px] -left-[100px] w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full"></div>
+            <div className="absolute -bottom-[200px] -right-[100px] w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full"></div>
+          </div>
 
           <header className="h-24 border-b border-white/10 flex items-center justify-between px-6 sm:px-10 bg-[#0a0a16]/50 backdrop-blur-md sticky top-0 z-50 relative shrink-0">
             <div className="flex items-center gap-3 shrink-0">
