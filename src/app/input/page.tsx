@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { AIDashboard } from "@/components/AIDashboard";
+import { InputDashboard } from "@/components/InputDashboard";
 
 export default function InputPage() {
     return (
         <div className="w-full min-h-full">
-            <AIDashboard />
+            <InputDashboard />
         </div>
     );
 }

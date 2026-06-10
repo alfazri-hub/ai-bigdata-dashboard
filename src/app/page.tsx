@@ -22,7 +22,7 @@ export default function HomePage() {
           Kolaborasi Kreatif di Balik CloudCost AI
         </h1>
         <p className="text-sm text-gray-400 font-medium max-w-lg mx-auto mt-4 leading-relaxed">
-          Kami adalah tim pengembang berdedikasi tinggi yang menggabungkan kecerdasan buatan dengan efisiensi pengelolaan infrastruktur cloud.
+          Kami mengembangkan solusi berbasis AI dengan dukungan pengelolaan cloud yang sederhana, cepat, dan efisien.
         </p>
       </div>
 

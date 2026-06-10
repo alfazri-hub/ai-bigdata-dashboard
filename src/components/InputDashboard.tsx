@@ -70,7 +70,7 @@ const NumberField = ({ label, icon: Icon, value, onChange, placeholder, prefix, 
   </div>
 );
 
-export const AIDashboard: React.FC = () => {
+export const InputDashboard: React.FC = () => {
   const [input, setInput] = useState<any>({
     Region: "", Billing_Period: "", Service_Category: "", Instance_Status: "",
     Storage_Used_GB: "", Required_CPU_Hours: "", Actual_CPU_Hours: "", CPU_Utilization: "",

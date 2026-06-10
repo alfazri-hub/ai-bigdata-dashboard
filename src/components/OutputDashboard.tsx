@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
-  DollarSign, AlertTriangle, CheckCircle, Clock, Server, Globe, Calendar, ToggleLeft, Cpu, Activity, Zap, CreditCard, HardDrive, Layers, Trash2
+  DollarSign, AlertTriangle, CheckCircle, Clock, Server, Globe, Calendar, ToggleLeft, Cpu, Activity, Zap, CreditCard, HardDrive, Layers, Trash2, Award, Terminal
 } from "lucide-react";
 import { Card, Button } from "@/components/ui";
 import { formatUSD } from "@/lib/utils";
@@ -13,29 +13,30 @@ const ParamRow = ({ icon: Icon, label, value, accent = "blue", }: {
   icon: React.ElementType; label: string; value: string | number; accent?: "blue" | "emerald" | "amber" | "indigo" | "rose" | "cyan";
 }) => {
   const accentClasses: Record<string, string> = {
-    blue: "text-blue-500 bg-blue-50",
-    emerald: "text-emerald-500 bg-emerald-50",
-    amber: "text-amber-500 bg-amber-50",
-    indigo: "text-indigo-500 bg-indigo-50",
-    rose: "text-rose-500 bg-rose-50",
-    cyan: "text-cyan-500 bg-cyan-50",
+    blue: "text-blue-400 bg-blue-500/10",
+    emerald: "text-emerald-400 bg-emerald-500/10",
+    amber: "text-amber-400 bg-amber-500/10",
+    indigo: "text-indigo-400 bg-indigo-500/10",
+    rose: "text-rose-400 bg-rose-500/10",
+    cyan: "text-cyan-400 bg-cyan-500/10",
   };
   return (
-    <div className="flex items-center justify-between py-2.5 px-1 group hover:bg-slate-50/60 rounded-xl transition-colors">
+    <div className="flex items-center justify-between py-2.5 px-2 group hover:bg-white/5 rounded-xl transition-colors">
       <div className="flex items-center gap-2.5 min-w-0">
         <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${accentClasses[accent]}`}>
           <Icon size={13} />
         </div>
-        <span className="text-[11px] font-bold text-slate-500 truncate">{label}</span>
+        <span className="text-[11px] font-bold text-gray-300 truncate">{label}</span>
       </div>
-      <span className="text-[11px] font-extrabold text-slate-800 text-right ml-3 shrink-0 max-w-[55%] truncate">{value}</span>
+      <span className="text-[11px] font-extrabold text-white text-right ml-3 shrink-0 max-w-[55%] truncate">{value}</span>
     </div>
   );
 };
 
-export const SalesDashboard: React.FC = () => {
+export const OutputDashboard: React.FC = () => {
   const { predictionResult, history, setPredictionResult, clearHistory, deleteHistoryItem } = usePrediction();
   const router = useRouter();
+  const [showRawCLI, setShowRawCLI] = useState(false);
 
   if (!predictionResult) {
     return (
@@ -238,6 +239,105 @@ export const SalesDashboard: React.FC = () => {
           </div>
         </Card>
       </div>
+
+      {/* Model Evaluation Summary Card */}
+      <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden text-left">
+        <div className="px-7 pt-6 pb-4 border-b border-white/5">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center shadow-md shadow-blue-500/10">
+              <Activity size={15} className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-white tracking-tight">Evaluasi Performa Model ML</h3>
+              <p className="text-[10px] font-medium text-gray-400 mt-0.5">Perbandingan performa prediksi XGBoost vs Ridge Regression</p>
+            </div>
+          </div>
+        </div>
+        <div className="px-7 py-5 space-y-5">
+          {/* Main info columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Table comparison */}
+            <div className="lg:col-span-8 overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-white/5 text-[9px] font-extrabold text-gray-500 uppercase tracking-wider">
+                    <th className="pb-3 pr-4">Model</th>
+                    <th className="pb-3 px-4 text-center">R² (Test)</th>
+                    <th className="pb-3 px-4 text-center">MAE ($)</th>
+                    <th className="pb-3 px-4 text-center">MSE</th>
+                    <th className="pb-3 px-4 text-center">RMSE ($)</th>
+                    <th className="pb-3 px-4 text-center">CV R²</th>
+                    <th className="pb-3 pl-4 text-right">CV Std</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  <tr className="text-xs text-gray-300 hover:bg-white/5 transition-colors font-medium">
+                    <td className="py-3.5 pr-4 flex items-center gap-2 font-bold text-white">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      XGBoost
+                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase">Best</span>
+                    </td>
+                    <td className="py-3.5 px-4 text-center text-emerald-400 font-bold">0.9010</td>
+                    <td className="py-3.5 px-4 text-center">2.8356</td>
+                    <td className="py-3.5 px-4 text-center">15.2277</td>
+                    <td className="py-3.5 px-4 text-center">3.9023</td>
+                    <td className="py-3.5 px-4 text-center text-emerald-400/80">0.9007</td>
+                    <td className="py-3.5 pl-4 text-right text-gray-400">0.0012</td>
+                  </tr>
+                  <tr className="text-xs text-gray-300 hover:bg-white/5 transition-colors">
+                    <td className="py-3.5 pr-4 flex items-center gap-2 text-gray-400">
+                      <span className="w-2 h-2 rounded-full bg-slate-600"></span>
+                      Ridge Regression
+                    </td>
+                    <td className="py-3.5 px-4 text-center">0.9005</td>
+                    <td className="py-3.5 px-4 text-center">2.8426</td>
+                    <td className="py-3.5 px-4 text-center">15.2926</td>
+                    <td className="py-3.5 px-4 text-center">3.9106</td>
+                    <td className="py-3.5 px-4 text-center">0.9006</td>
+                    <td className="py-3.5 pl-4 text-right text-gray-400">0.0009</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Winning stats summary box */}
+            <div className="lg:col-span-4 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/15 flex flex-col justify-between gap-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 text-emerald-400 font-extrabold text-[10px] uppercase tracking-wider">
+                  <Award size={13} /> Model Terbaik Terpilih
+                </div>
+                <h4 className="text-sm font-extrabold text-white tracking-tight">XGBoost Regression</h4>
+                <p className="text-[10px] text-gray-400 font-medium leading-relaxed">
+                  Menawarkan akurasi lebih tinggi dalam menangani pola biaya non-linear dan kompleks pada infrastruktur cloud.
+                </p>
+              </div>
+
+              <div className="space-y-2 border-t border-white/5 pt-3 text-[10px]">
+                <div className="flex items-center justify-between text-gray-400">
+                  <span>Akurasi (R²):</span>
+                  <strong className="text-emerald-400 font-bold">90.10% (0.9010)</strong>
+                </div>
+                <div className="flex items-center justify-between text-gray-400">
+                  <span>Rata-rata Error (MAE):</span>
+                  <strong className="text-white font-bold">$2.8356</strong>
+                </div>
+                <div className="flex items-center justify-between text-gray-400">
+                  <span>MSE Error:</span>
+                  <strong className="text-white font-bold">15.2277</strong>
+                </div>
+                <div className="flex items-center justify-between text-gray-400">
+                  <span>RMSE Error:</span>
+                  <strong className="text-white font-bold">$3.9023</strong>
+                </div>
+                <div className="flex items-center justify-between text-gray-400">
+                  <span>CV R² (5-Fold):</span>
+                  <strong className="text-white font-bold">0.9007 ± 0.0012</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
 
       <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden">
         <div className="px-7 pt-6 pb-4 border-b border-white/5">
