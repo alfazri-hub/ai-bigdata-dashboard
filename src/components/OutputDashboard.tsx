@@ -59,26 +59,28 @@ export const OutputDashboard: React.FC = () => {
         </div>
 
         {/* Show history even if active prediction result is null */}
-        {history && history.length > 0 && (
-          <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden text-left">
-            <div className="px-7 pt-6 pb-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-500/10">
-                  <Clock size={15} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white tracking-tight">Riwayat Estimasi</h3>
-                  <p className="text-[10px] font-medium text-gray-400 mt-0.5">Daftar perhitungan biaya ML sebelumnya</p>
-                </div>
+        <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden text-left">
+          <div className="px-7 pt-6 pb-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-500/10">
+                <Clock size={15} className="text-white" />
               </div>
+              <div>
+                <h3 className="text-sm font-bold text-white tracking-tight">Riwayat Estimasi</h3>
+                <p className="text-[10px] font-medium text-gray-400 mt-0.5">Daftar perhitungan biaya ML sebelumnya</p>
+              </div>
+            </div>
+            {history && history.length > 0 && (
               <button
                 onClick={clearHistory}
                 className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 px-3.5 py-1.5 rounded-xl border border-rose-500/20 self-start sm:self-auto cursor-pointer"
               >
                 Hapus Semua
               </button>
-            </div>
-            <div className="px-7 py-4">
+            )}
+          </div>
+          <div className="px-7 py-4">
+            {history && history.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
@@ -133,9 +135,13 @@ export const OutputDashboard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </Card>
-        )}
+            ) : (
+              <div className="text-center py-8 text-gray-400 text-xs font-semibold">
+                Belum ada riwayat estimasi.
+              </div>
+            )}
+          </div>
+        </Card>
       </div>
     );
   }
@@ -190,7 +196,7 @@ export const OutputDashboard: React.FC = () => {
           <div className="absolute top-0 right-0 w-36 h-36 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all pointer-events-none" />
           <div className="space-y-1 relative z-10">
             <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-cyan-400">💰 Estimasi Total Cost</span>
-            <h3 className="text-xs text-gray-300 font-medium leading-relaxed">Hasil Perhitungan Biaya ML</h3>
+            <h3 className="text-xs text-gray-300 font-medium leading-relaxed">Hasil Perhitungan Biaya</h3>
           </div>
           <div className="my-4 relative z-10">
             <span className="text-5xl font-extrabold text-white tracking-tight drop-shadow-sm">{predictionResult.formatted || formatUSD(safeBiaya)}</span>
@@ -345,7 +351,7 @@ export const OutputDashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/10"><Layers size={15} className="text-white" /></div>
             <div>
               <h3 className="text-sm font-bold text-white tracking-tight">Parameter Prediksi yang Digunakan</h3>
-              <p className="text-[10px] font-medium text-gray-400 mt-0.5">Semua parameter input yang dikirim ke model ML</p>
+              <p className="text-[10px] font-medium text-gray-400 mt-0.5">Semua parameter input yang digunakan untuk prediksi</p>
             </div>
           </div>
         </div>
@@ -380,26 +386,28 @@ export const OutputDashboard: React.FC = () => {
       </Card>
 
       {/* Prediction History Card */}
-      {history && history.length > 0 && (
-        <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden text-left">
-          <div className="px-7 pt-6 pb-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-500/10">
-                <Clock size={15} className="text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white tracking-tight">Riwayat Estimasi</h3>
-                <p className="text-[10px] font-medium text-gray-400 mt-0.5">Daftar perhitungan biaya ML sebelumnya</p>
-              </div>
+      <Card variant="default" className="border border-white/5 rounded-[28px] bg-[#121226]/80 backdrop-blur-sm shadow-xl shadow-black/25 overflow-hidden text-left">
+        <div className="px-7 pt-6 pb-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-500/10">
+              <Clock size={15} className="text-white" />
             </div>
+            <div>
+              <h3 className="text-sm font-bold text-white tracking-tight">Riwayat Estimasi</h3>
+              <p className="text-[10px] font-medium text-gray-400 mt-0.5">Daftar perhitungan biaya sebelumnya</p>
+            </div>
+          </div>
+          {history && history.length > 0 && (
             <button
               onClick={clearHistory}
               className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 px-3.5 py-1.5 rounded-xl border border-rose-500/20 self-start sm:self-auto cursor-pointer"
             >
               Hapus Semua
             </button>
-          </div>
-          <div className="px-7 py-4">
+          )}
+        </div>
+        <div className="px-7 py-4">
+          {history && history.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -456,9 +464,13 @@ export const OutputDashboard: React.FC = () => {
                 </tbody>
               </table>
             </div>
-          </div>
-        </Card>
-      )}
+          ) : (
+            <div className="text-center py-8 text-gray-400 text-xs font-semibold">
+              Belum ada riwayat estimasi.
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   );
 };

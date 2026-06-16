@@ -38,7 +38,7 @@ export default function RootLayout({
                   CloudCost AI
                 </span>
                 <span className="text-gray-400 font-semibold text-[10px] block mt-1.5 uppercase tracking-wider">
-                  Kelompok Asik &bull; FinOps Dashboard
+                  Kelompok Didikan Bapak Robin Sinurat ST., MT.
                 </span>
               </div>
             </div>
