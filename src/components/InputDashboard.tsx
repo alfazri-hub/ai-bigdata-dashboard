@@ -108,8 +108,8 @@ export const InputDashboard: React.FC = () => {
     
     if (input.Storage_Used_GB === "") {
       newErrors.Storage_Used_GB = "Penyimpanan wajib diisi.";
-    } else if (Number(input.Storage_Used_GB) < 1 || Number(input.Storage_Used_GB) > 999) {
-      newErrors.Storage_Used_GB = "Penyimpanan harus di antara 1 – 999 GB.";
+    } else if (Number(input.Storage_Used_GB) < 1 || Number(input.Storage_Used_GB) > 1000) {
+      newErrors.Storage_Used_GB = "Penyimpanan harus di antara 1 – 1000 GB.";
     }
     
     if (input.Required_CPU_Hours === "") {
