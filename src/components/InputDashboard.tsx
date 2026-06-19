@@ -193,7 +193,7 @@ export const InputDashboard: React.FC = () => {
             </div>
             <div className="space-y-5">
               <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wider border-b border-white/10 pb-2">II. Kapasitas & Penggunaan CPU</h3>
-              <NumberField label="Storage Digunakan (GB)" icon={HardDrive} value={input.Storage_Used_GB} onChange={set("Storage_Used_GB")} placeholder="Contoh: 250" hint="Range dataset: 1 – 999 GB" error={errors.Storage_Used_GB} />
+              <NumberField label="Storage Digunakan (GB)" icon={HardDrive} value={input.Storage_Used_GB} onChange={set("Storage_Used_GB")} placeholder="Contoh: 250" hint="Range dataset: 1 – 1001 GB" error={errors.Storage_Used_GB} />
               <NumberField label="CPU Hours Dibutuhkan" icon={Cpu} value={input.Required_CPU_Hours} onChange={set("Required_CPU_Hours")} placeholder="Contoh: 372" hint="Range dataset: 1 – 744 jam" error={errors.Required_CPU_Hours} />
               <NumberField label="CPU Hours Aktual" icon={Activity} value={input.Actual_CPU_Hours} onChange={set("Actual_CPU_Hours")} placeholder="Contoh: 400" hint="Range dataset: 1 – 744 jam" error={errors.Actual_CPU_Hours} />
               <NumberField label="Utilisasi CPU (%)" icon={Server} value={input.CPU_Utilization} onChange={set("CPU_Utilization")} placeholder="Contoh: 65" hint="Range dataset: 1 – 99%" error={errors.CPU_Utilization} />
